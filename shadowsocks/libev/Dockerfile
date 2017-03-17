@@ -39,7 +39,8 @@ RUN set -ex && \
 
     cd /tmp/obfs && \
     curl -sSL $OBFS_URL | tar xz --strip 1 && \
-    ./autogen.sh \
+    curl -sSL https://github.com/shadowsocks/libcork/archive/3bcb8324431d3bd4be5e4ff2a4323b455c8d5409.tar.gz | tar xz --strip 1 -C libcork && \
+    ./autogen.sh && \
     ./configure --prefix=/usr --disable-documentation && \
     make install && \
 
