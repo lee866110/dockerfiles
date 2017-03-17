@@ -1,9 +1,9 @@
 FROM alpine:3.5
 MAINTAINER UmVnaXN0ZXIgcmVnaXN0ZXJkZWRpY2F0ZWQrZG9ja2VyKGF0KWdtYWlsLmNvbQo=
 
-ARG SS_VER=3.0.3
+ARG SS_VER=3.0.4
 ARG SS_URL=https://github.com/shadowsocks/shadowsocks-libev/releases/download/v$SS_VER/shadowsocks-libev-$SS_VER.tar.gz
-ARG OBFS_VER=0.0.2
+ARG OBFS_VER=0.0.3
 ARG OBFS_URL=https://github.com/shadowsocks/simple-obfs/archive/v$OBFS_VER.tar.gz
 
 ENV SERVER_ADDR 0.0.0.0
@@ -20,6 +20,7 @@ ENV PLUGIN_OPTS obfs=http
 RUN set -ex && \
     apk add --no-cache --virtual .build-deps \
                                 autoconf \
+                                automake \
                                 build-base \
                                 curl \
                                 libev-dev \
@@ -38,6 +39,7 @@ RUN set -ex && \
 
     cd /tmp/obfs && \
     curl -sSL $OBFS_URL | tar xz --strip 1 && \
+    ./autogen.sh \
     ./configure --prefix=/usr --disable-documentation && \
     make install && \
 
